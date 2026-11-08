@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Panel</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/flash_alert.css') }}">
+
+		<style type="text/css">
+			.text {
+				fill: none;
+				stroke-width: 3;
+				stroke-linejoin: round;
+				stroke-dasharray: 76 324;
+				stroke-dashoffset: 0;
+				-webkit-animation: stroke 6s infinite linear;
+				animation: stroke 6s infinite linear;
+			}
+			.text:nth-child(5n+1) {
+				stroke: red;
+				-webkit-animation-delay: -1.2s;
+				animation-delay: -1.2s;
+			}
+			.text:nth-child(5n+2) {
+				stroke: yellow;
+				-webkit-animation-delay: -2.4s;
+				animation-delay: -2.4s;
+			}
+			.text:nth-child(5n+3) {
+				stroke: blue;
+				-webkit-animation-delay: -3.6s;
+				animation-delay: -3.6s;
+			}
+			.text:nth-child(5n+4) {
+				stroke: green;
+				-webkit-animation-delay: -4.8s;
+				animation-delay: -4.8s;
+			}
+			.text:nth-child(5n+5) {
+				stroke: cyan;
+				-webkit-animation-delay: -6s;
+				animation-delay: -6s;
+			}
+
+			@-webkit-keyframes stroke {
+			100% {
+				stroke-dashoffset: -400;
+			}
+			}
+			@keyframes stroke {
+			100% {
+				stroke-dashoffset: -400;
+			}
+			}
+
+			svg {
+				text-transform: uppercase;
+				font: 4em/1 Open Sans, Impact;
+			}
+
+		</style>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("home");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body style="font-family: Arial;">
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<h1>Panel</h1>
+		<div class="menu" role="navigation">
+			<a class="pages active" href="{{ url_for('panel.panel_home') }}">Panel</a>
+			<a class="pages" data-i18n="dns_config" href="{{ url_for('dns.dns_home') }}">Configuración DNS</a>
+			<a class="pages" data-i18n="dhcp_config" href="{{ url_for('dhcp.dhcp_home') }}">Configuración DHCP</a>
+			<a class="pages" data-i18n="netplan_config" href="{{ url_for('netplan.netplan_home') }}">Configuración Netplan</a>
+			<a class="pages" data-i18n="apply_changes" href="{{ url_for('panel.send_data') }}">Aplicar cambios</a>
+			<a class="pages" data-i18n="change_pwd" href="{{ url_for('panel.change_password') }}">Cambiar contraseña</a>
+			<a class="pages" data-i18n="logout" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+		</div>
+		
+		{% if admin %}
+			<br/>
+			<div class="menu" role="navigation">
+				<a class="pAdm" data-i18n="new_user" href="{{ url_for('panel.crear_usuario') }}">Crear usuario</a>
+				<a class="pAdm" data-i18n="search" href="{{ url_for('panel.buscar') }}">Buscar</a>
+				<a class="pAdm" data-i18n="new_dev" href="{{ url_for('panel.vincular') }}">Vincular dispositivo</a>
+				<a class="pAdm" data-i18n="desv" href="{{ url_for('panel.desvincular') }}">Desvincular dispositivo</a>
+				<a class="pAdm" data-i18n="mod_user" href="{{ url_for('panel.modificar_permiso') }}">Modificar permisos</a>
+				<a class="pAdm" data-i18n="del_user" href="{{ url_for('panel.borrar_usuario') }}">Borrar usuario</a>
+			</div>
+		{% endif %}
+		<svg viewBox="0 0 600 100" style="width: 600px; max-width: 100%;">
+			<symbol id="s-text">
+				<text text-anchor="middle" x="50%" y="50%" dy="35">{{ session.usuario }}</text>
+			</symbol>
+			<use class="text" xlink:href="#s-text"></use>
+			<use class="text" xlink:href="#s-text"></use>
+			<use class="text" xlink:href="#s-text"></use>
+			<use class="text" xlink:href="#s-text"></use>
+			<use class="text" xlink:href="#s-text"></use>
+		</svg>
+		<p> (Rol: {{ session.rol }})</p>
+
+		<hr/>
+		<form method="POST">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+			<label data-i18n="searchuser" for="usuario">Buscar por usuario:</label>
+			<input type="text" id="usuario" name="usuario">
+
+			<label data-i18n="searchserver" for="servidor">Buscar por servidor (ID):</label>
+			<input type="text" id="servidor" name="servidor">
+
+			<label data-i18n="searchdate" for="fecha">Buscar por fecha:</label>
+			<input type="text" id="fecha" name="fecha" placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}">
+
+			<button data-i18n="search"  type="submit">Buscar</button>
+		</form>
+		{% if logs %}
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th data-i18n="user_ask">Usuario</th>
+						<th data-i18n="serverid">Servidor (ID)</th>
+						<th data-i18n="comand">Comando</th>
+						<th data-i18n="date">Fecha</th>
+						<th data-i18n="file">Fichero</th>
+						<th data-i18n="ipaddr">Dirección IP</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for log in logs %}
+						<tr>
+							<td>{{ log[0] }}</td>
+							<td>{{ log[1] }}</td>
+							<td>{{ log[2] }}</td>
+							<td>{{ log[3] }}</td>
+							<td>{{ log[4] }}</td>
+							<td>{{ log[5] }}</td>
+							<td>{{ log[6] }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% elif metodo == "post" %}
+			<p data-i18n="notsearch" style="color: red; font-weight: bolder;">No se encontraron logs con los filtros proporcionados.</p>
+		{% endif %}
+
+		<div class="toast-container">
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				{% for category, message in messages %}
+					<div class="toast {{ category }}">{{ message }}</div>
+				{% endfor %}
+				{% endif %}
+			{% endwith %}
+		</div>
+
+		<script src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+	</body>
+</html>

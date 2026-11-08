@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Enviar payload</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("home");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<div class="menu" role="navigation">
+			<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+			<a class="pages" data-i18n="dns_config" href="{{ url_for('dns.dns_home') }}">Configuración DNS</a>
+			<a class="pages" data-i18n="dhcp_config" href="{{ url_for('dhcp.dhcp_home') }}">Configuración DHCP</a>
+			<a class="pages" data-i18n="netplan_config" href="{{ url_for('netplan.netplan_home') }}">Configuración Netplan</a>
+			<a class="pages active" data-i18n="apply_changes" href="{{ url_for('panel.send_data') }}">Aplicar cambios</a>
+			<a class="pages" data-i18n="change_pwd" href="{{ url_for('panel.change_password') }}">Cambiar contraseña</a>
+			<a class="pages" data-i18n="logout" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+		</div>
+
+		<form method="post" enctype="multipart/form-data">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+			<label for="destino">Servidor destino:</label> <br/>
+			<select name="destino" id="destino" class="form-select" required>
+				<option value="">Seleccione un servidor</option>
+				{% for s in servidores %}
+					<option value="{{ s[0] }}">
+						{{ s[1] }} ({{ s[2] }})
+					</option>
+				{% endfor %}
+			</select>
+			<label for="comando">Comando (temporal):</label> <br/>
+			<input id="comando" type="text" name="comando" placeholder="Escribe un comando" required>
+			
+			<label for="archivo">Archivo (opcional):</label> <br/>
+			<input type="file" name="archivo" id="archivo">
+
+			<button type="submit">Enviar</button>
+		</form>
+
+		<div style="width: 100%; text-align: center;">
+			<div style="width: 40%; margin: 4%; float: left;">
+				<input type="text" name="ftmove" id="ftmove" placeholder="Nombre del fichero (local)">
+				<input type="text" name="ntmove" id="ntmove" placeholder="Ubicación destino a enviar">
+				<button name="namove" id="namove" data-i18n="namove" onclick="NAmove()">Agregar ubicación del fichero</button> <br>
+			</div>
+			<div style="width: 40%; margin: 4%; float: left;">
+				<input type="text" name="ftdelete" id="ftdelete" placeholder="Nombre del fichero (remoto)">
+				<input type="text" name="ndelete" id="ndelete" placeholder="Ubicación del fichero a eliminar">
+				<button name="nadelete" id="nadelete" data-i18n="namove" onclick="NAdelete()">Agregar ubicación del fichero</button> <br>
+			</div>
+			<button style="text-align: center;" name="hechocmd" id="hechocmd" data-i18n="hechocmd" onclick="hechocmd()">Agregar otro comando</button>
+		</div>
+
+		<script type="text/javascript">
+			function NAmove() {
+				document.getElementById('comando').value += 'MOVER FICHERO "' + document.getElementById('ftmove').value + '" A "' + document.getElementById('ntmove').value + '"';
+			}
+			function NAdelete() {
+				document.getElementById('comando').value += 'ELIMINAR FICHERO "' + document.getElementById('ftmove').value + '" DE "' + document.getElementById('ntmove').value + '"';
+			}
+			
+			function hechocmd() {
+				document.getElementById('comando').value += "; ";
+			}
+		</script>
+	</body>
+</html>

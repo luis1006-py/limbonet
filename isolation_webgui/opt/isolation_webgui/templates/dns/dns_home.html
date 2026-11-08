@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Configuración DNS</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/flash_alert.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("dns");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<h2>Panel DNS</h2>
+		<div class="menu" role="navigation">
+			<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+			<a class="pages" href="{{ url_for('dns.vaciar_config') }}" data-i18n="empty_db">Vaciar Base de Datos</a>
+			<a class="pages" href="{{ url_for('dns.zona_directa_dns') }}" data-i18n="direct_zone">Configurar Zona Directa</a>
+			<a class="pages" href="{{ url_for('dns.zona_inversa_dns') }}" data-i18n="reverse_zone">Configurar Zona Inversa</a>
+			<a class="pages" href="{{ url_for('dns.configurar_bd_dns') }}" data-i18n="db_config">Configurar Bases de Datos</a>
+			<a class="pages" href="{{ url_for('dns.asignar_registros_dns') }}" data-i18n="add_record">Añadir Registro</a>
+		</div>
+
+		<p data-i18n="explain">
+			DNS (Domain Name System) traduce nombres de dominio legibles en direcciones IP que los ordenadores pueden entender, facilitando la nageación por internet y la comunicación entre equipos.
+		</p>
+
+		<div class="toast-container">
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				{% for category, message in messages %}
+					<div class="toast {{ category }}">{{ message }}</div>
+				{% endfor %}
+				{% endif %}
+			{% endwith %}
+		</div>
+	</body>
+</html>

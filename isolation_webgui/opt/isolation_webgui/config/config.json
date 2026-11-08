@@ -1,0 +1,8 @@
+{
+	"SECRET_KEY": "clave_segura",
+	"AES_KEY": "aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899",
+	"PROT": "http",
+	"PORTC": "1234",
+	"netplan": "./config/netplan.yaml",
+	"local": 1
+}

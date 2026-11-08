@@ -1,0 +1,22 @@
+{
+	"blank": "Clear Netplan file",
+	"config": "Configure Netplan file",
+	"vlan": "Configure VLAN",
+	"get_int": "Get interfaces",
+	"dhcp4_ask": "Enable DHCPv4",
+	"cidr_mask": "Mask (CIDR)",
+	"dns1": "Primary DNS",
+	"dns2": "Secondary DNS",
+	"dg": "Default gateway",
+	"int_config": "Configure interfaces",
+	"int_name": "Network interface name",
+	"ip_cidr": "IP (CIDR format)",
+	"question": "Need help calculating CIDR format?",
+	"netmask": "Subnet mask",
+	"mask_cidr": "CIDR mask (automatic)",
+	"remove_vlan": "Remove VLAN",
+	"add_vlan": "Add VLAN",
+	"serverpick": "Select a server",
+	"serverint": "Server network interfaces",
+	"explain": "Netplan is a tool in Linux that simplifies network configuration, allowing you to define interfaces, routes, and parameters in a clear and reproducible manner."
+}

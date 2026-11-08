@@ -1,0 +1,23 @@
+{
+	"blank": "Netplanファイルを空にする",
+	"config": "Netplanファイルを設定する",
+	"vlan": "VLANを設定する",
+	"get_int": "インターフェースを取得する",
+	"dhcp4_ask": "DHCPv4を有効にする",
+	"cidr_mask": "マスク（CIDR）",
+	"dns1": "プライマリDNS",
+	"dns2": "セカンダリDNS",
+	"dg": "デフォルトゲートウェイ",
+	"int_config": "インターフェースを設定する",
+	"int_name": "ネットワークインターフェース名",
+	"ip_cidr": "IP（CIDR形式）",
+	"question": "CIDR形式の計算が必要ですか？",
+	"netmask": "サブネットマスク",
+	"mask_cidr": "CIDRマスク（自動）",
+	"remove_vlan": "VLANを削除",
+	"add_vlan": "VLANを追加",
+	"serverpick": "サーバーを選択",
+	"serverint": "サーバーのネットワークインターフェース",
+	"explain": "NetplanはLinuxのツールで、ネットワーク設定を簡素化し、インターフェース、ルート、パラメータを明確で再現可能な方法で定義することを可能にします。"
+	
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title data-i18n="mod_user">Modificar permisos</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("home");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+
+		<div class="menu" role="navigation">
+			<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+			<a class="pages" data-i18n="dns_config" href="{{ url_for('dns.dns_home') }}">Configuración DNS</a>
+			<a class="pages" data-i18n="dhcp_config" href="{{ url_for('dhcp.dhcp_home') }}">Configuración DHCP</a>
+			<a class="pages" data-i18n="netplan_config" href="{{ url_for('netplan.netplan_home') }}">Configuración Netplan</a>
+			<a class="pages" data-i18n="apply_changes" href="{{ url_for('panel.send_data') }}">Aplicar cambios</a>
+			<a class="pages" data-i18n="change_pwd" href="{{ url_for('panel.change_password') }}">Cambiar contraseña</a>
+			<a class="pages" data-i18n="logout" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+		</div>
+		<br/>
+		<div class="menu" role="navigation">
+			<a class="pAdm" data-i18n="new_user" href="{{ url_for('panel.crear_usuario') }}">Crear usuario</a>
+			<a class="pAdm" data-i18n="search" href="{{ url_for('panel.buscar') }}">Buscar</a>
+			<a class="pAdm" data-i18n="new_dev" href="{{ url_for('panel.vincular') }}">Vincular dispositivo</a>
+			<a class="pAdm" data-i18n="desv" href="{{ url_for('panel.desvincular') }}">Desvincular dispositivo</a>
+			<a class="pAdm active" data-i18n="mod_user" href="{{ url_for('panel.modificar_permiso') }}">Modificar permisos</a>
+			<a class="pAdm" data-i18n="del_user" href="{{ url_for('panel.borrar_usuario') }}">Borrar usuario</a>
+		</div>
+
+		<h2 data-i18n="mod_user">Modificar permisos</h2>
+		<form method="POST">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+			<label for="id_usuario" data-i18n="user_id">ID del usuario:</label><br>
+			<input type="number" id="id_usuario" name="id_usuario" required><br><br>
+			<label for="id_dispositivo" data-i18n="dev_id">ID del dispositivo:</label><br>
+			<input type="number" id="id_dispositivo" name="id_dispositivo" required><br><br>
+			<label for="permiso" data-i18n="perm">Permiso:</label><br>
+			<select id="permiso" name="permiso">
+				<option value="0" data-i18n="deny">Denegar acceso</option>
+				<option value="1" data-i18n="read">Lectura</option>
+				<option value="2" data-i18n="cfg">Configuración</option>
+			</select><br><br>
+			<button type="submit" data-i18n="mod_user">Modificar Permiso</button>
+		</form>
+		<div class="toast-container">
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				{% for category, message in messages %}
+					<div class="toast {{ category }}">{{ message }}</div>
+				{% endfor %}
+				{% endif %}
+			{% endwith %}
+		</div>
+
+		<script src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+	</body>
+</html>

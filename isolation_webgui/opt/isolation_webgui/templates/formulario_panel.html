@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Formulario del panel</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+	</head>
+	<body>
+		<h1>Formulario dentro del panel</h1>
+
+		<form method="POST">
+			{{ form.hidden_tag() }}
+
+			<p>
+				{{ form.nombre.label }}<br>
+				{{ form.nombre(size=32) }}
+				{% for error in form.nombre.errors %}
+					<span style="color:red">{{ error }}</span>
+				{% endfor %}
+			</p>
+
+			<p>
+				{{ form.edad.label }}<br>
+				{{ form.edad() }}
+				{% for error in form.edad.errors %}
+					<span style="color:red">{{ error }}</span>
+				{% endfor %}
+			</p>
+
+			<p>
+				{{ form.ciudad.label }}<br>
+				{{ form.ciudad(size=32) }}
+				{% for error in form.ciudad.errors %}
+					<span style="color:red">{{ error }}</span>
+				{% endfor %}
+			</p>
+
+			<p>
+				{{ form.categoria.label }}<br>
+				{{ form.categoria() }}
+			</p>
+
+			<p>{{ form.submit() }}</p>
+		</form>
+
+		<a href="{{ url_for('panel.panel_home') }}">Volver al panel</a>
+	</body>
+
+</html>

@@ -1,0 +1,23 @@
+
+{
+	"blank": "清空Netplan文件",
+	"config": "配置Netplan文件",
+	"vlan": "配置VLAN",
+	"get_int": "获取接口",
+	"dhcp4_ask": "启用DHCPv4",
+	"cidr_mask": "掩码（CIDR）",
+	"dns1": "主要DNS",
+	"dns2": "次要DNS",
+	"dg": "默认网关",
+	"int_config": "配置接口",
+	"int_name": "网络接口名称",
+	"ip_cidr": "IP（CIDR格式）",
+	"question": "需要帮助计算CIDR格式吗？",
+	"netmask": "子网掩码",
+	"mask_cidr": "CIDR格式的掩码（自动）",
+	"remove_vlan": "删除VLAN",
+	"add_vlan": "添加VLAN",
+	"serverpick": "选择一个服务器",
+	"serverint": "服务器网络接口",
+	"explain": "Netplan 是 Linux 中的一个工具，简化了网络配置，允许以清晰和可重复的方式定义接口、路由和参数。"
+}

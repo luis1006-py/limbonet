@@ -1,0 +1,26 @@
+.toast-container{
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 9999;
+}
+
+.toast{
+	min-width: 250px;
+	margin-bottom: 10px;
+	padding: 15px 20px;
+	border-radius: 5px;
+	color: white;
+	opacity: 0.9;
+	transition: opacity 0.5s ease-in-out;
+}
+
+.toast.hide{
+	opacity: 0;
+	/* transform: translateX(100%); */
+}
+
+.toast.success {background-color:green;}
+.toast.error {background-color: red;}
+.toast.danger {background-color: red;}
+.toast.warning {background-color: orange;}

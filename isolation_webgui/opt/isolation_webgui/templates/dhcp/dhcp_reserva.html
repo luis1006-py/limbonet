@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<title>DHCP - Reserva</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("dhcp");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<h2 data-i18n="dhcp_res">Configuración de reserva</h2>
+		<form method="POST">
+			<div class="menu" role="navigation">
+				<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+				<a class="pages" href="{{ url_for('dhcp.vaciar_config') }}" data-i18n="empty_file">Vaciar fichero de configuración</a>
+				<a class="pages" href="{{ url_for('dhcp.subnet') }}" data-i18n="subnet">Configurar Subnet</a>
+				<a class="pages active" href="{{ url_for('dhcp.reserva_dhcp') }}" data-i18n="dhcp_res">Configurar Reserva</a>
+				<a class="pages" href="{{ url_for('dhcp.clase_dhcp') }}" data-i18n="dhcp_class">Configurar Clase</a>
+				<a class="pages" href="{{ url_for('dhcp.pool_dhcp') }}" data-i18n="dhcp_pool">Configurar Pools</a>
+			<a class="pages" href="{{ url_for('dhcp.logs_dhcp') }}" data-i18n="dhcp_logs">Registros de concesiones</a>
+			</div>
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+			<label for="name" data-i18n="hostname">Nombre del host *</label>
+			<input type="text" id="name" name="name" required placeholder="fantasia"/><br/>
+
+			<label for="mac" data-i18n="macdir">Dirección MAC *</label>
+			<input type="text" id="mac" name="mac" required placeholder="00:00:00:00:00:00" data-mac/><br/>
+
+			<label for="ip" data-i18n="fixed_ip">Dirección IP fija a asignar *</label>
+			<input type="text" id="ip" name="ip" required placeholder="127.0.0.1" data-ip/><br/>
+
+			<label for="dns1" data-i18n="dns1">DNS primario *</label>
+			<input type="text" id="dns1" name="dns1" placeholder="8.8.8.8" data-ip/><br/>
+
+			<label for="dns2" data-i18n="dns2">DNS secundario <small>(opcional)</small></label>
+			<input type="text" id="dns2" name="dns2" placeholder="8.8.4.4" data-ip/><br/>
+
+			<label for="dg" data-i18n="dg">Default Gateway <small>(opcional)</small></label>
+			<input type="text" id="dg" name="dg" placeholder="127.0.0.1" data-ip/><br/>
+
+			<input type="submit" value="Enviar" data-i18n="submit_btn"/>
+		</form>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/regexconf.js') }}"></script>
+	</body>
+</html>

@@ -1,0 +1,15 @@
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .register-entry {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .remove-entry {
+            cursor: pointer;
+            color: red;
+            text-decoration: underline;
+        }

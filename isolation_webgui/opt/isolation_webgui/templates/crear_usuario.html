@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Crear usuario</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("home");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<div class="menu" role="navigation">
+			<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+			<a class="pages" data-i18n="dns_config" href="{{ url_for('dns.dns_home') }}">Configuración DNS</a>
+			<a class="pages" data-i18n="dhcp_config" href="{{ url_for('dhcp.dhcp_home') }}">Configuración DHCP</a>
+			<a class="pages" data-i18n="netplan_config" href="{{ url_for('netplan.netplan_home') }}">Configuración Netplan</a>
+			<a class="pages" data-i18n="apply_changes" href="{{ url_for('panel.send_data') }}">Aplicar cambios</a>
+			<a class="pages" data-i18n="change_pwd" href="{{ url_for('panel.change_password') }}">Cambiar contraseña</a>
+			<a class="pages" data-i18n="logout" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+		</div>
+		<br/>
+		<div class="menu" role="navigation">
+			<a class="pAdm active" data-i18n="new_user" href="{{ url_for('panel.crear_usuario') }}">Crear usuario</a>
+			<a class="pAdm" data-i18n="search" href="{{ url_for('panel.buscar') }}">Buscar</a>
+			<a class="pAdm" data-i18n="new_dev" href="{{ url_for('panel.vincular') }}">Vincular dispositivo</a>
+			<a class="pAdm" data-i18n="desv" href="{{ url_for('panel.desvincular') }}">Desvincular dispositivo</a>
+			<a class="pAdm" data-i18n="mod_user" href="{{ url_for('panel.modificar_permiso') }}">Modificar permisos</a>
+			<a class="pAdm" data-i18n="del_user" href="{{ url_for('panel.borrar_usuario') }}">Borrar usuario</a>
+		</div>
+		
+		{% block content %}
+			<h2>Crear Nuevo Usuario</h2>
+			<form method="POST" action="{{ url_for('panel.crear_usuario') }}">
+				{{ form.hidden_tag() }}
+					<div>
+						<label for="nombre_usuario">Username</label>
+						{{ form.nombre_usuario(class="form-control") }}
+						{% for error in form.nombre_usuario.errors %}
+						<span class="text-danger">{{ error }}</span>
+				{% endfor %}
+				</div>
+				<div>
+					<label for="contraseña">Password</label>
+					{{ form.contraseña(class="form-control") }}
+					{% for error in form.contraseña.errors %}
+					<span class="text-danger">{{ error }}</span>
+					{% endfor %}
+				</div>
+				<div>
+					<label for="confirmar_contraseña">Confirm password</label>
+					{{ form.confirmar_contraseña(class="form-control") }}
+					{% for error in form.confirmar_contraseña.errors %}
+					<span class="text-danger">{{ error }}</span>
+					{% endfor %}
+				</div>
+				<div>
+					<label for="rol">Rol</label>
+					{{ form.rol(class="form-control") }}
+				</div>
+				<p><b>TIER I: </b><span data-i18n="tier1-desc">Los usuarios solo tienen permiso a revisar los registros del sistema.</span></p>
+				<p><b>TIER II: </b><span data-i18n="tier2-desc">Los usuarios solo pueden administrar los servidores asociados, no pueden cambiar permisos.</span></p>
+				<p><b>TIER III: </b><span data-i18n="tier3-desc">Los usuarios pueden vincular nuevos dispositivos y administrar los servidores seleccionados.</span></p>
+				<p><b>ADMIN: </b><span data-i18n="admin-desc">Solo hay un administrador que puede crear y borrar usuarios, y modificar permisos.</span></p>
+				<div>
+					<button type="submit" class="btn btn-primary">Crear Usuario</button>
+				</div>
+			</form>
+		{% endblock %}
+		  <div class="toast-container">
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				{% for category, message in messages %}
+					<div class="toast {{ category }}">{{ message }}</div>
+				{% endfor %}
+				{% endif %}
+			{% endwith %}
+		</div>
+		<script src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+	</body>
+</html>

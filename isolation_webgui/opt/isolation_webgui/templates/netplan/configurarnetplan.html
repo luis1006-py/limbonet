@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Configurar Netplan</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("netplan");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+		<style type="text/css">
+			.form-group {
+				display: block;             /* Asegura que los elementos hijos estén en bloque, uno debajo del otro */
+				margin-bottom: 20px;        /* Mantener espacio entre los campos */
+				text-align: left;           /* Asegura que los elementos dentro de .form-group se alineen a la izquierda */
+			}
+
+			.form-group input[type="checkbox"] {
+				width: auto;
+				margin-top: 0;
+				margin-right: 10px;
+				display: inline-block;
+				transform: scale(1.5);
+				cursor: pointer;
+			}
+
+			.form-group label {
+				display: inline-block;
+				margin-bottom: 5px;
+				vertical-align: middle;
+			}
+
+		</style>
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<div class="menu" role="navigation">
+			<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+			<a class="pages" href="{{ url_for('netplan.vaciarnetplan') }}" data-i18n="blank">Vaciar fichero de Netplan</a>
+			<a class="pages active" href="{{ url_for('netplan.configurarnetplan') }}" data-i18n="config">Configurar fichero de Netplan</a>
+			<a class="pages" href="{{ url_for('netplan.config_vlan') }}" data-i18n="vlan">Configurar VLAN</a>
+		</div>
+		<form method="POST">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+			<h3 data-i18n="serverpick">Selecciona un servidor</h3>
+			<select name="servidor_id" class="form-control">
+				{% for servidor in servidores %}
+					<option value="{{ servidor[0] }}">{{ servidor[1] }}</option>
+				{% endfor %}
+			</select>
+			<button type="submit" class="btn btn-primary" data-i18n="get_int">Obtener Interfaces</button>
+		</form>
+
+		{% if interfaces %}
+			<h3 data-i18n="serverint">Interfaces de Red del Servidor</h3>
+			<form method="POST" action="{{ url_for('netplan.netplanconfigurado') }}">
+				<input type="hidden" name="servidor_id" value="{{ servidor_id }}">
+				<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+				<ul>
+					{% for interface in interfaces %}
+						<li>
+							<h4>{{ interface }}</h4>
+								<div class="form-group">
+									<label for="interface_{{ loop.index }}">{{ interface }}</label>
+									<input type="checkbox" name="interfaces" id="interface_{{ loop.index }}" value="{{ interface }}">
+								</div>
+								<div class="form-group">
+									<label for="dhcp4_{{ loop.index }}" data-i18n="dhcp4_ask">Habilitar DHCPv4</label>
+									<input type="checkbox" name="dhcp4_{{ loop.index }}" id="dhcp4_{{ loop.index }}">
+								</div>
+								<div class="form-group">
+									<label for="ip_{{ loop.index }}">IP (IPv4)</label>
+									<input type="text" name="ip_{{ loop.index }}" id="ip_{{ loop.index }}" placeholder="Ejemplo: 192.168.1.100" data-ip/>
+								</div>
+								<div class="form-group">
+									<label for="mask_{{ loop.index }}" data-i18n="cidr_mask">Máscara (CIDR)</label>
+									<input type="text" name="mask_{{ loop.index }}" id="mask_{{ loop.index }}" placeholder="Ejemplo: 24"/>
+								</div>
+								<div class="form-group">
+									<label for="mask_decimal_{{ loop.index }}">Máscara (Decimal)</label>
+									<input type="text" name="mask_decimal_{{ loop.index }}" id="mask_decimal_{{ loop.index }}" placeholder="Ejemplo: 255.255.255.0" data-index="{{ loop.index }}" data-ip/>
+								</div>
+								<div class="form-group">
+									<label for="dns_primary_{{ loop.index }}" data-i18n="dns1">DNS Primario</label>
+									<input type="text" name="dns_primary_{{ loop.index }}" id="dns_primary_{{ loop.index }}" placeholder="Ejemplo: 8.8.8.8" data-ip/>
+								</div>
+									<div class="form-group">
+									<label for="dns_secondary_{{ loop.index }}" data-i18n="dns2">DNS Secundario</label>
+									<input type="text" name="dns_secondary_{{ loop.index }}" id="dns_secondary_{{ loop.index }}" placeholder="Ejemplo: 8.8.4.4" data-ip/>
+								</div>
+								<div class="form-group">
+									<label for="gateway_{{ loop.index }}" data-i18n="dg">Puerta de enlace predeterminada</label>
+									<input type="text" name="gateway_{{ loop.index }}" id="gateway_{{ loop.index }}" placeholder="Ejemplo: 192.168.1.1" data-ip/>
+								</div>
+							<hr>
+						</li>
+					{% endfor %}
+				</ul>
+
+				<button type="submit" class="btn btn-success" data-i18n="int_config">Configurar Interfaces</button>
+			</form>
+		{% endif %}
+
+		<script type="text/javascript">
+			function decimalToCIDR(decimalMask) {
+				const parts = decimalMask.split('.').map(Number);
+				let cidr = 0;
+				for (let i = 0; i < 4; i++) {
+					let binary = parts[i].toString(2).padStart(8, '0');
+					cidr += binary.split('1').length - 1;
+				}
+				return cidr;
+			}
+
+			const maskDecimalInputs = document.querySelectorAll('input[id^="mask_decimal_"]');
+
+			maskDecimalInputs.forEach(input => {
+				input.addEventListener('input', function() {
+					const decimalMask = this.value;
+					const index = this.getAttribute('data-index');
+
+					if (isValidMask(decimalMask)) {
+						const cidr = decimalToCIDR(decimalMask);
+						document.getElementById('mask_' + index).value = cidr;
+					}
+				});
+			});
+
+			function isValidMask(mask) {
+				const regex = /^(255|254|252|248|240|224|192|128|0)\.(255|254|252|248|240|224|192|128|0)\.(255|254|252|248|240|224|192|128|0)\.(255|254|252|248|240|224|192|128|0)$/;
+				return regex.test(mask);
+			}
+		</script>
+		<div class="toast-container">
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				{% for category, message in messages %}
+					<div class="toast {{ category }}">{{ message }}</div>
+				{% endfor %}
+				{% endif %}
+			{% endwith %}
+		</div>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/regexconf.js') }}"></script>
+	</body>
+</html>

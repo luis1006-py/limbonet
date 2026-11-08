@@ -1,0 +1,20 @@
+{
+	"AES_KEY": "aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899",
+	"api_key":"pon_tu_api_key_aqui",
+	"protocol": "http",
+	"PORT": "1234",
+	"TEMP_DIR": "./tmp",
+	"DHCP_DIR": "./dhcp",
+	"DHCP_LEASES": "./dhcp/dhcpd.leases",
+	"DNS_DIR": "./dns",
+	"NETPLAN_DIR": "./netplan",
+	"dhcp_monitor": "yes",
+	"email": "example@example.com",
+	"password": "password",
+	"emaild": "example@example.com",
+	"smtp_server": "server.com",
+	"smtp_port": "587",
+	"dhcp_threshold": "3",
+	"subnet_threshold": "80"
+
+}

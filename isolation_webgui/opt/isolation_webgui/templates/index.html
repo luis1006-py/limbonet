@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ISOLATION</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/elipse.css') }}">
+		<style type="text/css">
+			body{
+				font-family: Arial;
+				background: radial-gradient(circle at center, #111 0%, #000 100%);
+				color: #eee;
+			}
+
+			.title {
+				font-size: 60px;
+				color: #ff4c4c;
+				text-shadow: 0 0 10px #ff4c4c, 0 0 20px #ff0000, 0 0 30px #ff0000;
+				text-align: center;
+				margin-top: 50px;
+				animation: flicker 2s infinite;
+			}
+
+			@keyframes flicker {
+				0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+					opacity: 1;
+				}
+				20%, 22%, 24%, 55% {
+					opacity: 0.4;
+				}
+			}
+			a {
+				display: inline-block;
+				background: blue;
+				color: #fff;
+				text-decoration: none;
+				padding: 12px 30px;
+				border-radius: 8px;
+				font-weight: bold;
+				text-align: center;
+				transition: 0.3s;
+				margin: 20px auto;
+			}
+
+			.lista li::before{
+				content: '\272F ';
+			}
+
+			/*.special{
+				background: none;
+				padding: 0;
+				font-weight: bold;
+				color: #fff;
+				display: inline
+			}*/
+
+			a.g{
+				background: gray;
+			}
+
+			a.g:hover{
+				background: darkgray;
+				transform: scale(1.05);
+			}
+
+			a:hover {
+				background: #5555ff;
+				transform: scale(1.05);
+			}
+
+			p {
+				font-size: 18px;
+				line-height: 1.6;
+				max-width: 700px;
+				margin: 20px auto;
+				text-align: center;
+			}
+
+			h1:not(.title) {
+				text-align: center;
+				color: #ff6666;
+				margin-top: 40px;
+			}
+
+			.langcontainer {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			#langSwitcher { 
+				/* display:block; */
+				/* margin:20px auto;  */
+				width: 200px;
+				padding: 10px;
+				background: linear-gradient(135deg, skyblue, deepskyblue);
+				border: none;
+				color: white;
+				font-size: 16px;
+				font-weight: 500;
+				border-radius: 8px;
+				appearance: none;
+				outline: none;
+				cursor: pointer;
+				transition: all 0.3 ease;
+				position: relative;
+				padding-right: 30px;
+			}
+
+			#langSwitcher:hover {
+				background: linear-gradient(135deg, deepskyblue, skyblue);
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			}
+
+			#langSwitcher:focus {
+				outline: none;
+				box-shadow: 0 0 8px rgba(70, 130, 180, 0.6);
+			}
+
+			#langSwitcher option {
+				padding: 10px;
+				border: none;
+				background-color: black;
+				color: white;
+				font-size: 16px;
+				font-weight: 500;
+			}
+
+			#langSwitcher option:hover{
+				background-color: dimgray;
+			}
+
+			body, html, #app {
+				margin: 0;
+				width: 100%;
+				height: 100%;
+			}
+			#app {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				pointer-events: none; 
+				z-index: -1; 
+			}
+			#app canvas {
+				display: block;
+				position: fixed;
+				z-index: -1;
+				top: 0;
+			}
+		</style>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+
+	<body>
+		<div id="app" style="background-attachment: true;">
+			<canvas></canvas>
+		</div>
+		<div class="orbit-container">
+			<h1 class="title" data-i18n="isolation">LIMBONET</h1>
+
+			<div class="ellipse-wrapper">
+				{% for i in range(1, 9) %}
+					<img src="{{ url_for('static', filename='images/key.gif') }}" class="orbiter i{{ i }}">
+				{% endfor %}
+			</div>
+		</div>
+		<!--- <p>
+			<a href="{{ url_for('index') }}" sclass="special">Internet issues?</a>
+		</p>
+		--->
+		<div class="langcontainer">
+			<select id="langSwitcher">
+				<option value="es">🇪🇸 Español</option>
+				<option value="eu">🇵🇲 Euskara</option>
+				<option value="en">🇬🇧 English</option>
+				<option value="fr">🇫🇷 Français</option>
+				<option value="uk">🇺🇦 Українська</option>
+				<option value="tr">🇹🇷 Türkçe</option>
+				<option value="ja">🇯🇵 日本語</option>
+				<option value="zh-cn">🇨🇳 简体中文</option>
+				<option value="zh-tw">🇨🇳 繁體中文</option>
+			</select>
+		</div>
+		{% if session.usuario %}
+		<p>
+			<span data-i18n="welcome_text">¡Bienvenido otra vez</span>&nbsp;<strong>{{ session.usuario }}</strong>!
+		</p>
+		{% else %}
+			<p data-i18n="welcome_guest">Bienvenido a <strong>LIMBONET</strong>, tu interfaz para dominar redes en sistemas GNU/Linux.</p>
+		{% endif %}
+		<p data-i18n="description_1">LIMBONET es una herramienta para la gestión de redes en sistemas GNU/Linux</p>
+		<p data-i18n="description_2">Diseñado para administradores, permite controlar cada aspecto de tu infraestructura de red desde un único panel intuitivo</p>
+		<h1 data-i18n="main_functions">Funciones principales:</h1>
+		<ul class="lista" style="list-style-type: none; text-align: center; padding-left: 0; margin: 0 auto;">
+			<li data-i18n="func_dns">Configuración de DNS y resolución de nombres</li>
+			<li data-i18n="func_dhcp">Gestión de DHCP para asignación automática de direcciones IP</li>
+			<li data-i18n="func_ip">Administración de direcciones IP y rutas de manera centralizada</li>
+			<li data-i18n="func_vlan">Configuración de VLANs</li>
+		</ul>
+
+		<p>
+			{% if session.usuario %}
+				<a href="{{ url_for('panel.panel_home') }}" data-i18n="access_panel">Acceder al panel</a>&nbsp;
+			{% else %}
+				<a href="{{ url_for('auth.login') }}" data-i18n="login">Inicia sesión</a>&nbsp;
+			{% endif %}
+				<a class="g" href="https://github.com/luis06-py/isolation" target="_blank" data-i18n="github">GitHub</a>
+		</p>
+		<p><strong>ISOLATION</strong> by Luis Enrique Esandi Castro</p>
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("home");
+			});
+		</script>
+
+		<script type="module">
+			import { particlesCursor } from 'https://unpkg.com/threejs-toys@0.0.8/build/threejs-toys.module.cdn.min.js'
+	
+			const pc = particlesCursor({
+				el: document.getElementById('app'),
+				gpgpuSize: 512,
+				colors: [0x00fffc, 0x0000ff], // Changed pink color to #00fffc and blue color
+				color: 0xff0000,
+				coordScale: 0.5,
+				noiseIntensity: 0.005,
+				noiseTimeCoef: 0.0001,
+				pointSize: 2, // Lighter particle thickness
+				pointDecay: 0.0025,
+				sleepRadiusX: 250,
+				sleepRadiusY: 250,
+				sleepTimeCoefX: 0.001,
+				sleepTimeCoefY: 0.002
+			});
+		</script>
+	</body>
+</html>

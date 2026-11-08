@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Configuración DHCP</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("dhcp");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<h2 data-i18n="subnet">Configurar Subnet</h2>
+		<div class="menu" role="navigation">
+			<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+			<a class="pages" href="{{ url_for('dhcp.vaciar_config') }}" data-i18n="empty_file">Vaciar fichero de configuración</a>
+			<a class="pages active" href="{{ url_for('dhcp.subnet') }}" data-i18n="subnet">Configurar Subnet</a>
+			<a class="pages" href="{{ url_for('dhcp.reserva_dhcp') }}" data-i18n="dhcp_res">Configurar Reserva</a>
+			<a class="pages" href="{{ url_for('dhcp.clase_dhcp') }}" data-i18n="dhcp_class">Configurar Clase</a>
+			<a class="pages" href="{{ url_for('dhcp.pool_dhcp') }}" data-i18n="dhcp_pool">Configurar Pools</a>
+			<a class="pages" href="{{ url_for('dhcp.logs_dhcp') }}" data-i18n="dhcp_logs">Registros de concesiones</a>
+		</div>
+		<form method="POST">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+			<!-- <label>Subnet:</label>
+			<input type="text" name="dato" required> -->
+			<label for="red" data-i18n="red">Red *</label>
+			<input type="text" id="red" name="red" placeholder="127.0.0.0" required data-ip> <br/>
+			
+			<label for="mascara" data-i18n="mask">Máscara *</label>
+			<input type="text" id="mascara" name="mascara" placeholder="255.255.255.0" required data-ip> <br/>
+
+			<label for="rango1" data-i18n="range1">Rango inicio *</label>
+			<input type="text" id="rango1" name="rango1" required> <br/>
+
+			<label for="rango2" data-i18n="range2">Rango fin *</label>
+			<input type="text" id="rango2" name="rango2" required> <br/>
+
+			<label for="dns1" data-i18n="dns1">DNS primario</label>
+			<input type="text" id="dns1" name="dns1"> <br/>
+
+			<label for="dns2" data-i18n="dns2">DNS secundario <small>(opcional)</small></label>
+			<input type="text" id="dns2" name="dns2"> <br/>
+
+			<label for="dnsname" data-i18n="dnsname">Nombre de dominio <small>(opcional)</small></label>
+			<input type="text" id="dnsname" name="dnsname"> <br/>
+
+			<label for="subnetmask" data-i18n="subnetmask">Máscara de subred <small>(opcional)</small></label>
+			<input type="text" id="subnetmask" name="subnetmask" data-ip> <br/>
+
+			<label for="dg" data-i18n="dg">Default Gateway <small>(opcional)</small></label>
+			<input type="text" id="dg" name="dg" data-ip> <br/>
+
+			<label for="broadcast" data-i18n="broadcast">Dirección de broadcast <small>(opcional)</small></label>
+			<input type="text" id="broadcast" name="broadcast"> <br/>
+
+			<label for="lease" data-i18n="lease">Tiempo de lease por defecto en segundos <small>(opcional)</small></label>
+			<input type="number" id="lease" name="lease"> <br/>
+
+			<label for="maxlease" data-i18n="maxlease">Tiempo máximo de lease en segundos <small>(opcional)</small></label>
+			<input type="number" id="maxlease" name="maxlease"> <br/>
+
+			<button type="submit" data-i18n="submit_btn">Enviar</button>
+		</form>
+		<a href="{{ url_for('dhcp.dhcp_home') }}">Volver al panel DHCP</a>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/regexconf.js') }}"></script>
+	</body>
+</html>

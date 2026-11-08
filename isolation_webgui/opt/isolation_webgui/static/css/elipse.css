@@ -1,0 +1,50 @@
+.orbit-container {
+	position: relative;
+	width: 500px;
+	height: 500px;
+	margin: 10px auto 50px;
+}
+
+.title {
+	position: absolute;
+	top: 42%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 10;
+	font-size: 32px;
+}
+
+.ellipse-wrapper {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	transform: scaleY(0.6); 
+	transform-origin: center;
+}
+
+.orbiter {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	object-fit: cover;
+
+	transform: translate(-50%, -50%) translateX(200px);
+	animation: spin 12s linear infinite;
+}
+
+@keyframes spin {
+	from { transform: translate(-50%, -50%) rotate(0deg) translateX(200px); }
+	to   { transform: translate(-50%, -50%) rotate(360deg) translateX(200px); }
+}
+
+.i1 { animation-delay: 0s; }
+.i2 { animation-delay: -1.5s; }
+.i3 { animation-delay: -3s; }
+.i4 { animation-delay: -4.5s; }
+.i5 { animation-delay: -6s; }
+.i6 { animation-delay: -7.5s; }
+.i7 { animation-delay: -9s; }
+.i8 { animation-delay: -10.5s; }

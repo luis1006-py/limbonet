@@ -1,0 +1,22 @@
+{
+	"blank": "Vaciar fichero de Netplan",
+	"config": "Configurar fichero de Netplan",
+	"vlan": "Configurar VLAN",
+	"get_int": "Obtener interfaces",
+	"dhcp4_ask": "Habilitar DHCPv4",
+	"cidr_mask": "Máscara (CIDR)",
+	"dns1": "DNS primario",
+	"dns2": "DNS secundario",
+	"dg": "Puerta de enlace predeterminada",
+	"int_config": "Configurar interfaces",
+	"int_name": "Nombre de la interfaz de red",
+	"ip_cidr": "IP (formato CIDR)",
+	"question": "¿Necesitas ayuda calculando el formato CIDR?",
+	"netmask": "Máscara de subred",
+	"mask_cidr": "Máscara en formato CIDR (automático)",
+	"remove_vlan": "Eliminar VLAN",
+	"add_vlan": "Añadir VLAN",
+	"serverpick": "Selecciona un servidor",
+	"serverint": "Interfaces de red del servidor",
+	"explain": "Netplan es una herramienta en Linux que simplifica la configuración de red, permitiendo definir interfaces, rutas y parámetros de manera clara y reproducible."
+}

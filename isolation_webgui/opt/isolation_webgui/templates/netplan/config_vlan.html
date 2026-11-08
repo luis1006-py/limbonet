@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Configurar VLAN</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("netplan");
+			});
+		</script>
+		<script type="text/javascript">
+			function convertNetmaskToCIDR(inputElement) {
+				var netmask = inputElement.value;
+				var parts = netmask.split(".");
+				var cidr = 0;
+				for (var i = 0; i < parts.length; i++) {
+					var octet = parseInt(parts[i], 10);
+					while (octet) {
+						cidr += octet & 1;
+						octet >>>= 1;
+					}
+				}
+				var cidrField = inputElement.closest('.vlan-entry').querySelector('.cidr');
+				cidrField.value = cidr;
+			}
+
+			function agregarVlan() {
+				const contenedor = document.getElementById('vlans-container');
+				const nuevaVlan = contenedor.children[0].cloneNode(true);
+				nuevaVlan.querySelectorAll('input').forEach(input => input.value = '');
+				contenedor.appendChild(nuevaVlan);
+
+				nuevaVlan.querySelector('.remove-vlan').addEventListener('click', function() {
+					contenedor.removeChild(nuevaVlan);
+				});
+			}
+
+			function asignarMascara(ipInput) {
+				var ip = ipInput.value;
+				var octetos = ip.split(".");
+
+				var mascara = "";
+				if (octetos[0] >= 1 && octetos[0] <= 126) {
+					mascara = "255.0.0.0"; // Clase A
+				} else if (octetos[0] >= 128 && octetos[0] <= 191) {
+					mascara = "255.255.0.0"; // Clase B
+				} else if (octetos[0] >= 192 && octetos[0] <= 223) {
+					mascara = "255.255.255.0"; // Clase C
+				} else {
+					mascara = "255.255.255.0"; // Por defecto
+				}
+				var netmaskField = ipInput.closest('.vlan-entry').querySelector('input[name="netmask[]"]');
+				netmaskField.value = mascara;
+				convertNetmaskToCIDR(netmaskField);
+			}
+
+			function agregarVlan() {
+				const contenedor = document.getElementById('vlans-container');
+				const nuevaVlan = contenedor.children[0].cloneNode(true);
+				nuevaVlan.querySelectorAll('input').forEach(input => input.value = '');
+				contenedor.appendChild(nuevaVlan);
+
+				nuevaVlan.querySelector('.remove-vlan').addEventListener('click', function() {
+					contenedor.removeChild(nuevaVlan);
+				});
+			}
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<h1>Configuración de VLAN</h1>
+		<div class="menu" role="navigation">
+			<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+			<a class="pages" href="{{ url_for('netplan.vaciarnetplan') }}" data-i18n="blank">Vaciar fichero de Netplan</a>
+			<a class="pages" href="{{ url_for('netplan.configurarnetplan') }}" data-i18n="config">Configurar fichero de Netplan</a>
+			<a class="pages active" href="{{ url_for('netplan.config_vlan') }}" data-i18n="vlan">Configurar VLAN</a>
+		</div>
+		<form method="POST">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+			<div id="vlans-container">
+				<div class="vlan-entry">
+					<label for="iface" data-i18n="int_name">Nombre de la interfaz de red:</label>
+					<input type="text" name="iface[]" required placeholder="eth0, ens33"><br><br>
+					<label for="vlan_id">VLAN ID (1-4094):</label>
+					<input type="text" name="vlan_id[]" required pattern="^[1-9][0-9]{0,3}$"><br><br>
+					<label for="ip" data-i18n="ip_cidr">IP (formato CIDR):</label>
+					<input type="text" name="ip[]" required pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/([8-9]|[1-2][0-9]|3[0-2])$" oninput="asignarMascara(this)"><br><br>
+					<label for="dg" data-i18n="dg">Puerta de enlace predeterminada:</label>
+					<input type="text" name="dg[]" required data-ip><br><br>
+					<label for="dns" data-i18n="dns1">Servidor DNS primario:</label>
+					<input type="text" name="dns[]" data-ip><br><br>
+
+					<label for="netmask" data-i18n="netmask">Máscara de subred</label>
+					<input type="text" name="netmask[]" placeholder="255.255.255.0" oninput="convertNetmaskToCIDR(this)"><br><br>
+					<label for="cidr" data-i18n="mask_cidr">Máscara en formato CIDR (automático)</label>
+					<input type="text" class="cidr" name="cidr[]" readonly><br><br>
+
+					<button type="button" class="remove-vlan" data-i18n="remove_vlan">Eliminar VLAN</button><br><br>
+					<hr>
+				</div>
+			</div>
+			<button type="button" onclick="agregarVlan()" data-i18n="add_vlan">Añadir VLAN</button><br><br>
+			<br><hr style="border: 2px solid black;">
+			<button type="submit" data-i18n="vlan">Configurar VLAN</button>
+		</form>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/regexconf.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+	</body>
+</html>

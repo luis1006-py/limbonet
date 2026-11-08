@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Iniciar sesión</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<meta charset="utf-8">
+		<link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+		<style>
+			/* MODAL */
+			.modal {
+				display: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(0,0,0,0.8);
+				justify-content: center;
+				align-items: center;
+				z-index: 999;
+			}
+
+			.modal-content {
+				background: #111;
+				padding: 30px;
+				border-radius: 12px;
+				width: 350px;
+				text-align: center;
+				box-shadow: 0 0 20px rgba(0,255,255,0.3);
+				animation: fadeIn 0.4s ease;
+			}
+
+			.modal-content h3 {
+				margin-bottom: 15px;
+				color: cyan;
+			}
+
+			.modal-content p {
+				margin-bottom: 20px;
+				color: white;
+			}
+
+			.modal-content input {
+				width: 100%;
+				padding: 12px;
+				margin-bottom: 15px;
+				border: none;
+				border-radius: 8px;
+				background: #333;
+				color: white;
+				font-size: 14px;
+			}
+
+			.modal-content button {
+				width: 100%;
+				padding: 12px;
+				background: linear-gradient(135deg, orange, red);
+				border: none;
+				border-radius: 8px;
+				color: white;
+				font-size: 15px;
+				cursor: pointer;
+				transition: 0.3s;
+			}
+
+			.modal-content button:hover {
+				transform: scale(1.03);
+				filter: brightness(1.1);
+			}
+
+			/* Corrección */
+
+			input[type="password"]:focus {
+				width: 100%;
+				padding: 12px;
+				background: linear-gradient(135deg, skyblue, aqua);
+				border: none;
+				color: white;
+				font-size: 15px;
+				border-radius: 0px;
+				cursor: pointer;
+				transition: 0.3s;
+			}
+
+
+
+
+		</style>
+	</head>
+	<body>
+		<h2 data-i18n="login">Iniciar sesión</h2>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+
+		<form method="POST" style="margin-top: 25px;">
+			{{ form.hidden_tag() }}
+			<p>
+				{{ form.usuario.label (data_i18n="user_ask")}}<br>
+				{{ form.usuario(size=32) }}
+			</p>
+
+			<p>
+				{{ form.contraseña.label (data_i18n="pwd_ask")}}<br>
+				{{ form.contraseña(size=32) }}
+			</p>
+
+			<p>{{ form.submit() }}</p>
+		</form>
+
+		<!-- Modal de suscripción -->
+		<div id="subscriptionModal" class="modal">
+			<div class="modal-content">
+				<h3>Suscripción requerida</h3>
+				<p>Para iniciar sesión debes suscribirte por <strong>50€ mensuales</strong>.</p>
+
+				<input type="text" id="cardName" placeholder="Nombre del titular">
+				<input type="text" id="cardNumber" placeholder="Número de tarjeta">
+				<input type="text" id="expiry" placeholder="MM/AA">
+				<input type="text" id="cvv" placeholder="CVV">
+
+				<button id="payBtn">Agregar tarjeta y continuar</button>
+			</div>
+		</div>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+
+				const form = document.querySelector("form");
+				const modal = document.getElementById("subscriptionModal");
+				const payBtn = document.getElementById("payBtn");
+
+				let subscriptionAccepted = false;
+
+				form.addEventListener("submit", function(e) {
+
+					if (!subscriptionAccepted) {
+
+						e.preventDefault();
+						modal.style.display = "flex";
+					}
+				});
+
+				payBtn.addEventListener("click", () => {
+
+					const cardName = document.getElementById("cardName").value;
+					const cardNumber = document.getElementById("cardNumber").value;
+					const expiry = document.getElementById("expiry").value;
+					const cvv = document.getElementById("cvv").value;
+
+					if(cardName && cardNumber && expiry && cvv) {
+
+						subscriptionAccepted = true;
+
+						alert("Tarjeta agregada correctamente. Suscripción activada.");
+
+						modal.style.display = "none";
+
+						form.submit();
+
+					} else {
+
+						alert("Completa todos los campos de la tarjeta.");
+					}
+				});
+
+			});
+		</script>
+
+
+
+
+		{% for category, msg in get_flashed_messages(with_categories=true) %}
+		<p class="flash">{{ msg }}</p>
+		{% endfor %}
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("home");
+			});
+		</script>
+	</body>
+</html>

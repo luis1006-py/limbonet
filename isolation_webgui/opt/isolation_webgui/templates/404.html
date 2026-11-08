@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Error 404</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<link href="{{ url_for('static', filename='css/404.css') }}" rel="stylesheet">
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<h1 class="error-404" id="errorFocus">ERROR 404</h1>
+		<p>
+			The website may no longer exist or may have moved to another address. <a href="{{ url_for('home') }}">Return</a>
+		</p>
+		<button onclick="startShuffle()">FOCUS</button>
+		<div class="grid" id="grid"></div>
+
+		<audio id="music" src="{{ url_for('static', filename='focus.ogg') }}"></audio>
+
+		<div id="message" class="message"></div>
+		<script>
+			const KEY_IMG_URL = "{{ url_for('static', filename='images/key.gif') }}";
+			const KEY1_IMG_URL = "{{ url_for('static', filename='images/key1.png') }}";
+		</script>
+		<script type="text/javascript">
+			const grid = document.getElementById("grid");
+			const music = document.getElementById("music");
+			const message = document.getElementById("message");
+
+			const positions = [
+				{x:0,y:0},{x:110,y:0},
+				{x:0,y:110},{x:110,y:110},
+				{x:0,y:220},{x:110,y:220},
+				{x:0,y:330},{x:110,y:330}
+			];
+
+			const cells = [];
+			for (let i = 0; i < 8; i++) {
+				const div = document.createElement("div");
+				div.className = "cell";
+				div.innerHTML = `<img src="${KEY_IMG_URL}" alt="Key">`;
+				/* div.innerHTML = `<img src="./static/images/key.gif" alt="Key">`; /* JINJA2  */
+				grid.appendChild(div);
+				cells.push(div);
+			}
+
+			cells.forEach((cell, i) => {
+				const pos = positions[i];
+				cell.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+			});
+
+			function shuffleOnce() {
+				const indices = [...Array(cells.length).keys()];
+				for (let i = indices.length - 1; i > 0; i--) {
+					const j = Math.floor(Math.random() * (i + 1));
+					[indices[i], indices[j]] = [indices[j], indices[i]];
+				}
+				cells.forEach((cell, i) => {
+					const pos = positions[indices[i]];
+					cell.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+				});
+			}
+
+			function limbo() {
+				document.getElementById("errorFocus").innerText = "FOCUS";
+				let count = 0;
+				const interval = setInterval(() => {
+					shuffleOnce();
+					count++;
+					if (count >= 30) {
+						clearInterval(interval);
+					}
+				}, 273);
+			}
+
+			function startShuffle() {
+				const button = document.querySelector("button");
+				button.style.display = "none";
+
+				music.play();
+
+				const randomIndex = Math.floor(Math.random() * cells.length);
+				correctCell = cells[randomIndex];
+
+				const img = correctCell.querySelector("img");
+				img.src = KEY1_IMG_URL
+				/*img.src = "./static/images/key1.png";*/
+				
+
+				cells.forEach((cell, i) => {
+					setTimeout(() => {
+						cell.style.opacity = 1;
+					}, (i * 500));
+				});
+
+				setTimeout(() => {
+					limbo();
+					img.src = KEY_IMG_URL
+					/*img.src = "./static/images/key.gif";*/
+					
+					enableCellClicks();
+				}, 4500);
+			}
+			function enableCellClicks() {
+				cells.forEach(cell => {
+					cell.addEventListener("click", handleCellClick);
+				});
+			}
+
+			function handleCellClick(event) {
+				if (event.currentTarget  === correctCell) {
+					showMessage("RIGHT", "green");
+				} else {
+					showMessage("WRONG", "red");
+				}
+			}
+
+			function showMessage(text, color) {
+				message.innerText = text;
+				message.style.color = color;
+				message.style.display = "block";
+				setTimeout(() => {
+					message.style.display = "none";
+				}, 2000);
+			}
+		</script>
+	</body>
+</html>

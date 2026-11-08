@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Error 400</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<link href="{{ url_for('static', filename='css/404.css') }}" rel="stylesheet">
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<h1 class="error-404" id="errorFocus">ERROR 400 - Bad Request</h1>
+		<p>
+			The browser (or proxy) sent a request that this server could not understand. <br>
+			Please refresh the website. <a href="{{ url_for('home') }}">Return</a>
+		</p>
+	</body>
+</html>

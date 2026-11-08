@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>DHCP - Pools</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("dhcp");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<form method="POST">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+			<h2 data-i18n="dhcp_pool">Configuración del Pool</h2>
+			<div class="menu" role="navigation">
+				<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+				<a class="pages" href="{{ url_for('dhcp.vaciar_config') }}" data-i18n="empty_file">Vaciar fichero de configuración</a>
+				<a class="pages" href="{{ url_for('dhcp.subnet') }}" data-i18n="subnet">Configurar Subnet</a>
+				<a class="pages" href="{{ url_for('dhcp.reserva_dhcp') }}" data-i18n="dhcp_res">Configurar Reserva</a>
+				<a class="pages" href="{{ url_for('dhcp.clase_dhcp') }}" data-i18n="dhcp_class">Configurar Clase</a>
+				<a class="pages active" href="{{ url_for('dhcp.pool_dhcp') }}" data-i18n="dhcp_pool">Configurar Pools</a>
+				<a class="pages" href="{{ url_for('dhcp.logs_dhcp') }}" data-i18n="dhcp_logs">Registros de concesiones</a>
+			</div>
+
+			<!-- Subnet base -->
+			<label for="red" data-i18n="red">Red *</label>
+			<input type="text" name="red" placeholder="127.0.0.0" required data-ip/><br/>
+			<label for="mascara" data-i18n="mask">Máscara *</label>
+			<input type="text" name="mascara" placeholder="255.255.255.0" required data-ip/><br/>
+			<!-- Como se va a configurar reglas de asignación de IP mediante reglas, esto no se suele usar -->
+			<label for="rango1" data-i18n="range1">Rango inicio</label>
+			<input type="text" name="rango1"/><br/>
+			<label for="rango2" data-i18n="range2">Rango fin</label>
+			<input type="text" name="rango2"/><br/>
+			<!-- Como se va a configurar reglas de asignación de IP mediante reglas, esto no se suele usar -->
+			<label for="dns1" data-i18n="dns1">DNS primario</label>
+			<input type="text" name="dns1" data-ip/><br/>
+			<label for="dns2" data-i18n="dns2">DNS secundario</label>
+			<input type="text" name="dns2"/><br/>
+			<label for="dnsname" data-i18n="dnsname">Nombre de dominio</label>
+			<input type="text" name="dnsname"/><br/>
+			<label for="subnetmask" data-i18n="subnetmask">Máscara de subred</label>
+			<input type="text" name="subnetmask" data-ip/><br/>
+			<label for="dg" data-i18n="dg">Puerta de enlace predeterminada</label>
+			<input type="text" name="dg" data-ip/><br/>
+			<label for="broadcast" data-i18n="broadcast">Dirección de broadcast</label>
+			<input type="text" name="broadcast" data-ip/><br/>
+			<label for="lease" data-i18n="lease">Tiempo de lease por defecto</label>
+			<input type="number" name="lease"/><br/>
+			<label for="maxlease" data-i18n="maxlease">Tiempo máximo de lease</label>
+			<input type="number" name="maxlease"/><br/>
+
+			<hr/>
+
+			<h3 data-i18n="class_pool">Clases dentro del Pool</h3>
+			<div id="clases-container">
+				<div class="clase">
+					<label data-i18n="class_name">Nombre de clase *</label>
+					<input type="text" name="clase_nombre[]" required/><br/>
+					<label data-i18n="action">Acción *</label>
+					<select name="clase_accion[]">
+						<option value="allow" data-i18n="allow">Allow</option>
+						<option value="deny" data-i18n="deny">Deny</option>
+					</select><br/>
+					<label data-i18n="range1">Rango inicio</label>
+					<input type="text" name="clase_rango1[]"/><br/>
+					<label data-i18n="range2">Rango fin</label>
+					<input type="text" name="clase_rango2[]"/><br/>
+					<label data-i18n="dns1">DNS primario</label>
+					<input type="text" name="clase_dns1[]" data-ip/><br/>
+					<label data-i18n="dns2">DNS secundario</label>
+					<input type="text" name="clase_dns2[]" data-ip/><br/>
+					<label data-i18n="dnsname">Nombre de dominio</label>
+					<input type="text" name="clase_dnsname[]"/><br/>
+					<label data-i18n="subnetmask">Máscara de subred</label>
+					<input type="text" name="clase_subnetmask[]" data-ip/><br/>
+					<label data-i18n="dg">Puerta de enlace predeterminada</label>
+					<input type="text" name="clase_dg[]" data-ip/><br/>
+					<label data-i18n="broadcast">Dirección de broadcast</label>
+					<input type="text" name="clase_broadcast[]" data-ip/><br/>
+					<label data-i18n="lease">Lease por defecto</label>
+					<input type="number" name="clase_lease[]"/><br/>
+					<label data-i18n="maxlease">Lease máximo</label>
+					<input type="number" name="clase_maxlease[]"/><br/>
+					<hr/>
+				</div>
+			</div>
+
+			<button type="button" onclick="agregarClase()" data-i18n="more_classes">Agregar otra clase</button><br/><br/>
+			<input type="submit" value="Guardar Pool"/>
+		</form>
+
+		<script type="text/javascript">
+			function agregarClase() {
+				const cont = document.getElementById('clases-container');
+				const nueva = cont.children[0].cloneNode(true);
+				nueva.querySelectorAll('input').forEach(i => i.value = '');
+				nueva.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+				cont.appendChild(nueva);
+			}
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/regexconf.js') }}"></script>
+	</body>
+</html>

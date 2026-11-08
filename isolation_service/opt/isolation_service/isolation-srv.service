@@ -1,0 +1,12 @@
+[Unit]
+Description=IsolationS Service Python
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/isolation_service
+ExecStart=/opt/isolation_service/venv/bin/python /opt/isolation_service/main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

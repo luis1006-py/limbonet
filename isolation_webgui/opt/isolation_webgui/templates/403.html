@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Error 403</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<link href="{{ url_for('static', filename='css/404.css') }}" rel="stylesheet">
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<h1 class="error-404" id="errorFocus">ERROR 403 - Forbidden</h1>
+		<p>
+			You don't have the permission to access the requested resource. <br>
+			It is either read-protected or not readable by the server. <a href="{{ url_for('home') }}">Return</a>
+		</p>
+	</body>
+</html>

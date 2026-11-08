@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title data-i18n="titleasreg">Asignar Registros a la Base de Datos</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("dns");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<div class="container">
+			<h2 data-i18n="titleasreg">Asignar Registros a la Base de Datos</h2>
+			<div class="menu" role="navigation">
+				<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+				<a class="pages" href="{{ url_for('dns.vaciar_config') }}" data-i18n="empty_db">Vaciar Base de Datos</a>
+				<a class="pages" href="{{ url_for('dns.zona_directa_dns') }}" data-i18n="direct_zone">Configurar Zona Directa</a>
+				<a class="pages" href="{{ url_for('dns.zona_inversa_dns') }}" data-i18n="reverse_zone">Configurar Zona Inversa</a>
+				<a class="pages" href="{{ url_for('dns.configurar_bd_dns') }}" data-i18n="db_config">Configurar Bases de Datos</a>
+				<a class="pages active" href="{{ url_for('dns.asignar_registros_dns') }}" data-i18n="add_record">Añadir Registro</a>
+			</div>
+			<form method="POST">
+				<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+				<!-- Menú de pestañas con enlaces -->
+				
+
+				<div>
+					<div class="form-group">
+						<label for="bdname" class="form-label" data-i18n="db_name">Nombre de la Base de Datos *</label>
+						<input type="text" id="bdname" name="bdname" required/>
+					</div>
+				</div>
+
+				<!-- Contenido de la pestaña Registro -->
+				<div>
+					<div id="registers-container">
+						<!-- Los registros se agregarán aquí dinámicamente -->
+						<div class="register-entry">
+							<div class="form-group">
+								<label for="dato" data-i18n="reg_data">Dato a añadir en el Registro *</label>
+								<input type="text" name="dato[]" required placeholder="@ www.example.com. www 65"/>
+							</div>
+							<div class="form-group">
+								<label for="register" data-i18n="reg_type">Tipo de Registro *</label>
+								<input type="text" name="register[]" required placeholder="A, PTR, NS, CNAME..."/>
+							</div>
+							<div class="form-group">
+								<label for="value"><span data-i18n="reg_value">Valor del Registro *</span> <sub data-i18n="reg_help">Usa un punto al final si es la URL completa (www.ejemplo.com<b>.</b> ; www), si no (www) no lo pongas. Para las IP pon solo la parte de host (192.168.1.<b>2</b> pon 2)</sub></label>
+								<input type="text" name="value[]" required placeholder="Valor del registro"/>
+							</div>
+							<button type="button" class="remove-entry" data-i18n="remove_record">Eliminar Registro</button>
+							<hr/>
+						</div>
+					</div>
+
+					<button type="button" onclick="agregarRegistro()" data-i18n="add_record_btn">Añadir Registro</button><br/><br/>
+				</div>
+
+				<button type="submit" data-i18n="submit_btn">Asignar Registro</button>
+			</form>
+		</div>
+
+		<script type="text/javascript">
+		function agregarRegistro() {
+			const contenedor = document.getElementById('registers-container');
+			const nuevaEntrada = contenedor.children[0].cloneNode(true);
+			nuevaEntrada.querySelectorAll('input').forEach(input => input.value = '');
+			contenedor.appendChild(nuevaEntrada);
+
+			nuevaEntrada.querySelector('.remove-entry').addEventListener('click', function() {
+				contenedor.removeChild(nuevaEntrada);
+			});
+		}
+
+		document.addEventListener('input', function(e) {
+			if (e.target.name === 'register[]') {
+				const register = e.target.value.toUpperCase();
+				const inputValue = e.target.closest('.register-entry').querySelector('[name="value[]"]');
+
+				switch (register) {
+					case 'A':
+						inputValue.placeholder = "192.168.1.1";
+						break;
+					case 'PTR':
+						inputValue.placeholder = "www.example.com. www";
+						break;
+					case 'CNAME':
+						inputValue.placeholder = "www.example.com.";
+						break;
+					default:
+						inputValue.placeholder = "Valor del registro";
+				}
+			}
+		});
+	</script>
+	</body>
+</html>

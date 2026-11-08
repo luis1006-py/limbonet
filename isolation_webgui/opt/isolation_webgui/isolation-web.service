@@ -1,0 +1,12 @@
+[Unit]
+Description=IsolationWeb Service Python
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/isolation_webgui
+ExecStart=/opt/isolation_webgui/venv/bin/python /opt/isolation_webgui/main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

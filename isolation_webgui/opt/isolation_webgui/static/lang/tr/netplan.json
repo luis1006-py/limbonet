@@ -1,0 +1,22 @@
+{
+	"blank": "Netplan dosyasını boşalt",
+	"config": "Netplan dosyasını yapılandır",
+	"vlan": "VLAN yapılandır",
+	"get_int": "Arayüzleri al",
+	"dhcp4_ask": "DHCPv4'ü etkinleştir",
+	"cidr_mask": "Maske (CIDR)",
+	"dns1": "Birincil DNS",
+	"dns2": "İkincil DNS",
+	"dg": "Varsayılan ağ geçidi",
+	"int_config": "Arayüzleri yapılandır",
+	"int_name": "Ağ arayüzü adı",
+	"ip_cidr": "IP (CIDR formatında)",
+	"question": "CIDR formatını hesaplamada yardıma mı ihtiyacınız var?",
+	"netmask": "Alt ağ maskesi",
+	"mask_cidr": "CIDR formatında maske (otomatik)",
+	"remove_vlan": "VLAN'ı kaldır",
+	"add_vlan": "VLAN ekle",
+	"serverpick": "Bir sunucu seçin",
+	"serverint": "Sunucu ağ arabirimleri",
+	"explain": "Netplan, Linux'te ağ yapılandırmasını basitleştiren bir araçtır ve arayüzleri, rotaları ve parametreleri net ve tekrarlanabilir bir şekilde tanımlamayı sağlar."
+}

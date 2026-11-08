@@ -1,0 +1,22 @@
+{
+	"blank": "Netplan fitxategia hutsik utzi",
+	"config": "Netplan fitxategia konfiguratu",
+	"vlan": "VLAN konfiguratu",
+	"get_int": "Lortu interfazak",
+	"dhcp4_ask": "DHCPv4 gaitzea",
+	"cidr_mask": "Maskara (CIDR)",
+	"dns1": "DNS lehenaria",
+	"dns2": "DNS bigarrena",
+	"dg": "Atarian atea",
+	"int_config": "Konfiguratu interfazak",
+	"int_name": "Sareko interfaz izena",
+	"ip_cidr": "IP (CIDR formatua)",
+	"question": "CIDR formatua kalkulatzen laguntza behar al duzu?",
+	"netmask": "Azpian maskara",
+	"mask_cidr": "CIDR maskara (automatikoki)",
+	"remove_vlan": "Ertzako VLANa kendu",
+	"add_vlan": "VLAN gehitu",
+	"serverpick": "Aukeratu zerbitzaria",
+	"serverint": "Zerbitzariaren sare-interfazak",
+	"explain": "Netplan Linuxen dagoen tresna bat da, sareko konfigurazioa sinplifikatzen duena, interfazeei, bideei eta parametroei modu argi eta errepikakor batean definitzea ahalbidetuz."
+}

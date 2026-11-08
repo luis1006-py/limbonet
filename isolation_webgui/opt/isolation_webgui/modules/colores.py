@@ -1,0 +1,24 @@
+class Fore:
+	ROJO = "\033[31m"
+	VERDE = "\033[32m"
+	AMARILLO = "\033[33m"
+	AZUL = "\033[34m"
+	MAGENTA = "\033[35m"
+	CIAN = "\033[36m"
+	BLANCO = "\033[37m"
+	RESET = "\033[39m"
+
+class Back:
+	FONDO_ROJO = "\033[41m"
+	FONDO_VERDE = "\033[42m"
+	FONDO_AMARILLO = "\033[43m"
+	FONDO_AZUL = "\033[44m"
+	FONDO_MAGENTA = "\033[45m"
+	FONDO_CIAN = "\033[46m"
+	FONDO_BLANCO = "\033[47m"
+
+class Style:
+	BRILLANTE = "\033[1m"
+	TENUE = "\033[2m"
+	SUBRAYADO = "\033[4m"
+	NORMAL = "\033[0m"

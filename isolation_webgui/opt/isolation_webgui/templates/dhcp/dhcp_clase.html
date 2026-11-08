@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Regla de Clase</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+		<script type="text/javascript">
+			function mostrarCampos() {
+				var tipo = document.getElementById("tipo").value;
+				if(tipo === "id") {
+					document.getElementById("idField").style.display = "block";
+					document.getElementById("macField").style.display = "none";
+				} else if(tipo === "mac") {
+					document.getElementById("idField").style.display = "none";
+					document.getElementById("macField").style.display = "block";
+				} else {
+					document.getElementById("idField").style.display = "none";
+					document.getElementById("macField").style.display = "none";
+				}
+			}
+		</script>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/flash_alert.js') }}"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", () => {
+				I18N.init("dhcp");
+			});
+		</script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+
+	</head>
+	<body>
+		<select id="langSwitcher">
+			<option value="es">🇪🇸 Español</option>
+			<option value="eu">🇵🇲 Euskara</option>
+			<option value="en">🇬🇧 English</option>
+			<option value="fr">🇫🇷 Français</option>
+			<option value="uk">🇺🇦 Українська</option>
+			<option value="tr">🇹🇷 Türkçe</option>
+			<option value="ja">🇯🇵 日本語</option>
+			<option value="zh-cn">🇨🇳 简体中文</option>
+			<option value="zh-tw">🇨🇳 繁體中文</option>
+		</select>
+		<form method="POST">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+			<h2 data-i18n="dhcp_class">Regla de Clase</h2>
+			<div class="menu" role="navigation">
+				<a class="pages" href="{{ url_for('panel.panel_home') }}">Panel</a>
+				<a class="pages" href="{{ url_for('dhcp.vaciar_config') }}" data-i18n="empty_file">Vaciar fichero de configuración</a>
+				<a class="pages" href="{{ url_for('dhcp.subnet') }}" data-i18n="subnet">Configurar Subnet</a>
+				<a class="pages" href="{{ url_for('dhcp.reserva_dhcp') }}" data-i18n="dhcp_res">Configurar Reserva</a>
+				<a class="pages active" href="{{ url_for('dhcp.clase_dhcp') }}" data-i18n="dhcp_class">Configurar Clase</a>
+				<a class="pages" href="{{ url_for('dhcp.pool_dhcp') }}" data-i18n="dhcp_pool">Configurar Pools</a>
+			<a class="pages" href="{{ url_for('dhcp.logs_dhcp') }}" data-i18n="dhcp_logs">Registros de concesiones</a>
+			</div>
+
+			<label for="tipo" data-i18n="rule_type">Tipo de regla *</label>
+			<select id="tipo" name="tipo" onchange="mostrarCampos()" required>
+				<option value="" data-i18n="choose">Selecciona</option>
+				<option value="id" data-i18n="id_rule">Regla por ID</option>
+				<option value="mac" data-i18n="mac_rule">Regla por MAC</option>
+			</select><br/>
+
+			<label for="nameclass" data-i18n="name_class">Nombre de clase *</label>
+			<input type="text" id="nameclass" name="nameclass" required/><br/>
+
+			<div id="idField" style="display:none;">
+				<label for="id">ID *</label>
+				<input type="text" id="id" name="id"/><br/>
+			</div>
+
+			<div id="macField" style="display:none;">
+				<label for="mac">MAC (00:00:00) *</label>
+				<input type="text" id="mac" name="mac"/><br/>
+
+				<label for="macOption" data-i18n="option">Opción *</label>
+				<select id="macOption" name="macOption">
+					<option value="start" data-i18n="mac_startswith">La MAC debe empezar por la indicada</option>
+					<option value="end" data-i18n="mac_endswith">La MAC debe terminar por la indicada</option>
+				</select><br/>
+			</div>
+
+			<input type="submit" value="Enviar" data-i18n="submit_btn"/>
+		</form>
+	</body>
+</html>

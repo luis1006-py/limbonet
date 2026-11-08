@@ -1,0 +1,7 @@
+{
+	"TEMP_DIR": "./output/simulated/tmp",
+	"DHCP_DIR": "./output/simulated/dhcp",
+	"DNS_DIR": "./output/simulated/dns",
+	"NETPLAN_DIR": "./output/simulated/netplan",
+	"DHCP_LEASES": "./output/simulated/dhcp/dhcpd.leases"
+}

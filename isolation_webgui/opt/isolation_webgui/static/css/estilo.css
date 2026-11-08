@@ -1,0 +1,231 @@
+body {
+	font-family: Arial, sans-serif;
+	padding: 20px;
+	background-color: #f4f4f9;
+}
+
+.menu, .menu2 {
+	display: flex;
+	cursor: pointer;
+	background-color: gainsboro;
+	padding: 10px 20px;
+	border-radius: 8px 8px 0 0;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	transition: box-shadpw 0.3 ease-in-out;
+}
+
+.menu2 {
+	background-color: rgb(43, 43, 43)
+}
+
+.pages, .pages2, .pAdm {
+	padding: 12px 25px;
+	margin-right: 6px;
+	background-color: lightgray;
+	border-radius: 6px;
+	transition: all 0.3s ease;
+	text-decoration: none;
+	color: dimgray;
+	font-weight: 500px;
+	font-size: 16px;
+	display: inline-block
+}
+
+.pages2 {
+	background-color: rgb(48, 48, 48);
+	color: white;
+}
+
+.pages:hover, .pages2:hover, .pAdm:hover {
+	background-color: silver;
+	transform: translateY(-3px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pages2:hover{
+	background-color: gray;
+}
+
+.pages.active {
+	background-color: skyblue;
+	color: white;
+	transform: scale(1.1);
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.pAdm.active {
+	background-color: crimson;
+	color: white;
+	transform: scale(1.1);
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.pAdm.active:hover {
+	background-color: crimson;
+}
+
+.pages.active:hover {
+	background-color: dodgerblue;
+	transform: scale(1.1);
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-label {
+	font-weight: bold;
+}
+
+input[type="text"] {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	border-radius: 4px;
+	border: 1px solid #cccccc;
+}
+
+input[type="number"] {
+	width: 100%;
+	padding: 8px;
+	margin-top: 5px;
+	border-radius: 4px;
+	border: 1px solid #cccccc;
+	background-color: white;
+	font-size: 15px;
+}
+
+input{
+	color: #005a7a;
+	font-size: 16px;
+	letter-spacing: 0.5px;
+	font-family: "Orbitron", sans-serif;
+	transition: all 0.3s ease;
+}
+
+input:focus {
+	border-color: skyblue;
+	box-shadow: 0 0 5px rgba(135, 206, 235, 0.6);
+	outline: none;
+}
+
+input:invalid {
+	border: 2px solid #ffb3b3;
+	background: #fff5f5;
+	box-shadow: 0 0 6px rgba(255,120,120,0.35);
+}
+
+input:invalid:focus {
+	border-color: #ff8a8a;
+	box-shadow: 
+		0 0 8px rgba(255,150,150,0.55),
+		0 0 16px rgba(255,140,140,0.25);
+}
+
+input:valid {
+	border-color: green;
+	background-color: #e8f7e7;
+}
+
+button {
+	padding: 10px 15px;
+	background-color: skyblue;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: cornflowerblue;
+}
+
+ul {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+li {
+	padding: 12px 20px;
+	margin: 8px 0;
+	background-color: #ffffff;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	transition: all 0.3s ease;
+	font-size: 16px;
+	color: #333;
+	display: flex;
+	align-items: center;
+	display: block;
+}
+
+li:hover {
+	background-color: #f0f0f0;
+	transform: translateY(-2px);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+select option {
+	padding: 10px;
+	background-color: #f9f9f9;
+	color: #333;
+	border: 1px solid #ddd;
+	font-size: 16px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Efecto hover para las opciones */
+select option:hover {
+	background-color: skyblue;
+	color: white;
+}
+
+/* Estilo para las opciones seleccionadas */
+select option:checked {
+	background-color: #4caf50;
+	color: white;
+}
+
+select {
+	width: 100%;
+	padding: 12px;
+	background-color: #ffffff;
+	color: #333;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 16px;
+	font-family: Arial, sans-serif;
+	transition: all 0.3s ease;
+}
+
+select:hover {
+	border-color: skyblue;
+	background-color: #f9f9f9;
+}
+
+select:focus {
+	border-color: skyblue;
+	box-shadow: 0 0 8px rgba(135, 206, 235, 0.6);
+	background-color: #f7f7f7;
+}
+
+select option {
+	padding: 10px;
+	background-color: #f9f9f9;
+	color: #333;
+	border: none;
+	font-size: 16px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Efecto hover para las opciones */
+select option:hover {
+	background-color: skyblue;
+	color: white;
+}
+
+/* Estilo para las opciones seleccionadas */
+select option:checked {
+	background-color: #4caf50;
+	color: white;
+}

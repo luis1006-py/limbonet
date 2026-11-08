@@ -1,0 +1,7 @@
+Package: isolation-webgui
+Version: 1.0
+Section: base
+Priority: optional
+Architecture: all
+Maintainer: Luis Enrique Esandi Castro <luisesandicastro@gmail.com>
+Description: Webgui de Isolation que se ejecuta en el servidor
