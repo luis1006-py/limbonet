@@ -1,4 +1,4 @@
-# LIMBONET ⚠️ [OBSOLETO]
+# LIMBONET ⚠️ OBSOLETO
 
 Este proyecto ha quedado obsoleto y ya no se mantiene. Su contenido puede estar desactualizado y no se realizarán nuevas actualizaciones ni correcciones.
 
@@ -10,7 +10,7 @@ Este proyecto ha quedado obsoleto y ya no se mantiene. Su contenido puede estar 
 
 El sistema se divide en dos componentes principales desacoplados para mayor seguridad y escalabilidad:
 
-1. **Limbonet WebGUI:** Aplicación central desarrollada en **Flask** que ofrece una interfaz web, gestiona usuarios (con autenticado con Bcrypt y protección CSRF), valida parámetros y genera los ficheros de configuración.
+1. **Limbonet WebGUI:** Aplicación central desarrollada en **Flask** que ofrece una interfaz web, gestiona usuarios (Bcrypt y protección CSRF), valida parámetros y genera los ficheros de configuración.
 2. **Limbonet Service:** Servicio  basado en **FastAPI** ejecutado en los nodos gestionados. Recibe los ficheros de configuración de forma remota, valida la autenticidad mediante **API Key**, comprueba la sintaxis de los servicios locales y aplica los cambios.
 
 ## Características Principales
